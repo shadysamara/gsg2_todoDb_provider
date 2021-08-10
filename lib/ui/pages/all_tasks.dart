@@ -8,12 +8,30 @@ class AllTasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return ListView.builder(
-        itemCount: Provider.of<TodoProvider>(context).allTasks.length,
-        itemBuilder: (context, index) {
-          return TaskWidget(
-            Provider.of<TodoProvider>(context).allTasks[index],
-          );
-        });
+
+    return Column(
+      children: [
+        Text(
+          'hello',
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        Expanded(
+          child: Selector<TodoProvider, List<TaskModel>>(
+            builder: (context, data, x) {
+              return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return TaskWidget(
+                      data[index],
+                    );
+                  });
+            },
+            selector: (context, provider) {
+              return provider.allTasks;
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

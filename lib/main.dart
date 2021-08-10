@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_db/helpers/db_helper.dart';
+import 'package:todo_db/providers/theme_provider.dart';
 import 'package:todo_db/providers/todo_provider.dart';
 import 'package:todo_db/ui/pages/main_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DbHelper.dbHelper.initDatabase();
-  runApp(ChangeNotifierProvider<TodoProvider>(
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<TodoProvider>(
       create: (context) => TodoProvider(),
-      child: MaterialApp(home: MainPage())));
+    ),
+    ChangeNotifierProvider<ThemeProvider>(
+      create: (context) => ThemeProvider(),
+    )
+  ], child: MainPage()));
 }
 
 class MyApp extends StatelessWidget {
